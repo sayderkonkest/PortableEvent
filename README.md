@@ -74,7 +74,7 @@ Players.PlayerAdded:Connect(PlayerAdded)
 
 **Client:**
 ```lua
-local PortableNetwork = require(game.ReplicatedStorage.PortableEvent)
+local PortableEvent = require(game.ReplicatedStorage.PortableEvent)
 
 local Powers = {
 	'Fire',
@@ -87,7 +87,7 @@ local function UsePower(name: string, state: Enum.UserInputState, Input: InputOb
 	
 	local power = Powers[math.random(1, #Powers)]
 	
-	PortableNetwork.sendToServer('UsePower', power)
+	PortableEvent.sendToServer('UsePower', power)
 end
 
 game:GetService('ContextActionService'):BindAction('LaunchPower', UsePower, false, Enum.KeyCode.E)
@@ -95,9 +95,9 @@ game:GetService('ContextActionService'):BindAction('LaunchPower', UsePower, fals
 
 **Server:**
 ```lua
-local PortableNetwork = require(game.ReplicatedStorage.PortableEvent)
+local PortableEvent = require(game.ReplicatedStorage.PortableEvent)
 
-PortableNetwork:serverResponse('UsePower', function(player: Player, power: string)
+PortableEvent:serverResponse('UsePower', function(player: Player, power: string)
 	print(`{player.DisplayName:upper()} used the power {power:upper()}`)
 end)
 ```
