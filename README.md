@@ -50,6 +50,7 @@ local PortableEvent = require(game.ReplicatedStorage:WaitForChild('PortableEvent
 local Key = 'JoinMessage'
 
 PortableEvent:clientResponse(Key, function(Message: string)
+	-- Printing message
 	print(Message) -- Output: Welcome to the Game!
 end)
 ```
@@ -64,6 +65,7 @@ local function PlayerAdded(player)
 	local Key = 'JoinMessage'
 	local Message = 'Welcome to the Game!'
 	
+	-- Sending message to player with key 'JoinMessage'
 	PortableEvent.sendToClient(player, Key, Message)
 end
 
@@ -76,6 +78,7 @@ Players.PlayerAdded:Connect(PlayerAdded)
 ```lua
 local PortableEvent = require(game.ReplicatedStorage.PortableEvent)
 
+-- Powers list
 local Powers = {
 	'Fire',
 	'Water',
@@ -85,8 +88,10 @@ local Powers = {
 local function UsePower(name: string, state: Enum.UserInputState, Input: InputObject)
 	if state == Enum.UserInputState.End or state == Enum.UserInputState.Cancel then return end
 	
+	-- Random power
 	local power = Powers[math.random(1, #Powers)]
 	
+	-- Sending power to the server
 	PortableEvent.sendToServer('UsePower', power)
 end
 
@@ -97,6 +102,7 @@ game:GetService('ContextActionService'):BindAction('LaunchPower', UsePower, fals
 ```lua
 local PortableEvent = require(game.ReplicatedStorage.PortableEvent)
 
+-- Receiving power data
 PortableEvent:serverResponse('UsePower', function(player: Player, power: string)
 	print(`{player.DisplayName:upper()} used the power {power:upper()}`)
 end)
